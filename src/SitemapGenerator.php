@@ -5,7 +5,7 @@
  */
 
 
-namespace common\components\sitemapgenerator;
+namespace singularity\sitemapgenerator;
 
 use DateTime;
 use yii\base\Exception;
