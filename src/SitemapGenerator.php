@@ -22,13 +22,6 @@ use yii\helpers\Url;
  */
 class SitemapGenerator extends Model
 {
-    /**
-     * Generator config
-     */
-    public $baseUrl;
-    public $basePath = '';
-    public $fs = null;
-    public $runtime = null;
     private $_generator;
 
     /**
