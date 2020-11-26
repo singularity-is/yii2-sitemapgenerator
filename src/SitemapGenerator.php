@@ -163,13 +163,13 @@ class SitemapGenerator extends Model
         return $urls;
     }
 
-    protected function createGenerator($config)
+    protected function createGenerator(&$config)
     {
         $this->_generator = new \Icamys\SitemapGenerator\SitemapGenerator(
-            ArrayHelper::getValue($config, 'baseUrl', Url::base(true)),
-            ArrayHelper::getValue($config, 'basePath', ''),
-            ArrayHelper::getValue($config, 'fs'),
-            ArrayHelper::getValue($config, 'runtime')
+            ArrayHelper::remove($config, 'baseUrl', Url::base(true)),
+            ArrayHelper::remove($config, 'basePath', ''),
+            ArrayHelper::remove($config, 'fs'),
+            ArrayHelper::remove($config, 'runtime')
         );
     }
 
