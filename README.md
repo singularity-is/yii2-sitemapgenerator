@@ -1,12 +1,5 @@
 # Sitemap Generator for Yii2
 
-[![Latest Version](https://img.shields.io/github/tag/singularity-is/yii2-sitemapgenerator.svg?style=flat-square&label=release)](https://github.com/singularity-is/yii2-sitemapgenerator/tags)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/singularity/yii2-sitemapgenerator/master.svg?style=flat-square)](https://travis-ci.org/singularity/yii2-sitemapgenerator)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/singularity/yii2-sitemapgenerator.svg?style=flat-square)](https://scrutinizer-ci.com/g/singularity/yii2-sitemapgenerator/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/singularity/yii2-sitemapgenerator.svg?style=flat-square)](https://scrutinizer-ci.com/g/singularity/yii2-sitemapgenerator)
-[![Total Downloads](https://img.shields.io/packagist/dt/singularity/yii2-sitemapgenerator.svg?style=flat-square)](https://packagist.org/packages/singularity/yii2-sitemapgenerator)
-
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
@@ -14,7 +7,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```bash
-$ composer require singularity/yii2-sitemapgenerator:~1.0
+composer require singularity/yii2-sitemapgenerator
 ```
 
 or add
@@ -27,100 +20,38 @@ to the `require` section of your `composer.json` file.
 
 ## Usage
 
-Using with ActiveForm
-
-```
-use singularity\sitemapgenerator\SitemapGenerator;
-
-...
-
-<?= $form->field($model, 'imageIds'])->widget(SitemapGenerator::class, [
-    'files' => $data
-]); ?>
-```
-
-Using without ActiveForm
-
-```
-use singularity\sitemapgenerator\SitemapGenerator;
-
-...
-
-<?= SitemapGenerator::widget([
-    'items' => [],
-]) ?>
-```
-
-## Options
-
-#### Preload Files
-Example:
-```
-[
-    'files' => $files // default empty
-]
-```
-
-#### Highlight First Item
-Example:
-```
-[
-    'highlightFirst' => true // default false
-]
-```
-
-#### Enable Rotation
-Example:
-```
-[
-    'enableRotate' => true // default false
-    'clientOptions' => [
-        'rotateUrl' => Url::to(['/image/rotate'])
+Quick example:
+```PHP
+$generator = new SitemapGenerator([
+    'maxURLsPerSitemap' => 20000,
+    'basePath' => 'frontend/web',
+    'items' => [
+        'https://mysite.com',                      // url as string
+        ['class' => User::class],                  // array with ['class'] that have getPublicUrl() method
+        [
+            'class' => Post::class,               // if ['class'] does not have getPublicUrl() method,
+            'url' => function (Post $model) {     // then ['url'] must be set
+                return ["/post/view/$model->id"]; // ['url'] can be value or callback
+            }
+        ]
     ]
-]
+]);
+
+$count = $generator->generate();
 ```
 
-#### Enable Preview
-Example:
-```
-[
-    'enablePreview' => true // default false
-]
-```
+## Properties
 
-#### Enable Sort
-Example:
-```
-[
-    'enableSort' => true // default true
-]
-```
+- baseUrl
+- basePath
+- items
+- sitemapFilename
+- sitemapIndexFilename
+- robotsFilename
+- maxURLsPerSitemap
+- fs
+- runtime
 
-#### Enable Crop
-Example:
-```
-[
-    'enableCrop' => true // default false,
-    'cropperOptions' => [
-        'aspectRatio' => 1.4
-    ],
-    'clientOptions' => [
-        'parallelUploads' => 1 // default 2 (it is recommended to set this to 1 when using crop)
-    ],
-    'beforeCrop' => new JsExpression("function() {
-        console.log('Just before image is cropped!');
-    }"),
-]
-```
-
-#### Custom Remove Message
-Example:
-```
-[
-    'removeMessage' => 'Are you sure you want to delete image?' //this is the default
-]
-```
-see [Cropper.JS](https://github.com/fengyuanchen/cropperjs/blob/master/README.md) for full documentation
 
 ## Contributing
 
